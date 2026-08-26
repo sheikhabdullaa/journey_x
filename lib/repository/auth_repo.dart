@@ -6,7 +6,7 @@ class AuthRepo {
 
   Future<String?> login(String email, String password) async {
     try {
-      await _auth.signInWithEmailAndPassword(email: email, password: password , );
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
       return null;
     } catch (e) {
       rethrow;
@@ -27,7 +27,12 @@ class AuthRepo {
       FirebaseFirestore.instance
           .collection('signupuser')
           .doc(user.user?.uid)
-          .set({'name': name, 'email': email, 'password': password , 'number': number});
+          .set({
+            'name': name,
+            'email': email,
+            'password': password,
+            'number': number,
+          });
 
       // ignore: avoid_returning_null_for_void
       return null;
