@@ -18,6 +18,9 @@ class ChooseRole extends StatefulWidget {
 }
 
 class _ChooseRoleState extends State<ChooseRole> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
   bool isLoading = false;
 
   @override
@@ -26,71 +29,133 @@ class _ChooseRoleState extends State<ChooseRole> {
     redirectIfRoleExists();
   }
 
-  /// ✅ Check if current user already has a saved role
+  /// Check SharedPreferences first, then Firestore.
   Future<void> redirectIfRoleExists() async {
-    final user = FirebaseAuth.instance.currentUser;
+    final User? user = _auth.currentUser;
     if (user == null) return;
 
-    final prefs = await SharedPreferences.getInstance();
-    final savedRole = prefs.getString('userRole_${user.uid}');
+    try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? savedRole = prefs.getString('userRole_${user.uid}');
 
-    if (savedRole == 'traveller') {
+      if (savedRole != 'traveller' && savedRole != 'guide') {
+        final DocumentSnapshot<Map<String, dynamic>> userDocument =
+            await _firestore.collection('signupuser').doc(user.uid).get();
+
+        final dynamic firestoreRole = userDocument.data()?['role'];
+
+        if (firestoreRole == 'traveller' || firestoreRole == 'guide') {
+          savedRole = firestoreRole as String;
+          await prefs.setString('userRole_${user.uid}', savedRole);
+        }
+      }
+
+      if (!mounted) return;
+
+      if (savedRole == 'traveller' || savedRole == 'guide') {
+        _openDashboard(savedRole!);
+      }
+    } catch (e) {
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Unable to load saved role: $e')));
+    }
+  }
+
+  /// Save role for the current Firebase user and navigate.
+  Future<void> selectRole(String role) async {
+    if (isLoading) return;
+
+    setState(() => isLoading = true);
+
+    try {
+      User? user = _auth.currentUser;
+
+      if (user == null) {
+        if (!mounted) return;
+
+        setState(() => isLoading = false);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Your session has expired. Please login again.'),
+          ),
+        );
+        return;
+      }
+
+      await user.reload();
+      user = _auth.currentUser;
+
+      if (user == null) {
+        if (!mounted) return;
+
+        setState(() => isLoading = false);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Your session has expired. Please login again.'),
+          ),
+        );
+        return;
+      }
+
+      if (!user.emailVerified) {
+        if (!mounted) return;
+
+        setState(() => isLoading = false);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Please verify your email before selecting a role.'),
+          ),
+        );
+        return;
+      }
+
+      // AuthRepo also stores signup data in signupuser/{uid}.
+      await _firestore.collection('signupuser').doc(user.uid).set({
+        'uid': user.uid,
+        'email': user.email,
+        'role': role,
+        'updatedAt': FieldValue.serverTimestamp(),
+      }, SetOptions(merge: true));
+
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('userRole_${user.uid}', role);
+
+      if (!mounted) return;
+      _openDashboard(role);
+    } on FirebaseException catch (e) {
+      if (!mounted) return;
+
+      setState(() => isLoading = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.message ?? 'Unable to save your role.')),
+      );
+    } catch (e) {
+      if (!mounted) return;
+
+      setState(() => isLoading = false);
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Something went wrong: $e')));
+    }
+  }
+
+  void _openDashboard(String role) {
+    if (!mounted) return;
+
+    if (role == 'traveller') {
       Navigator.pushReplacement(
-        // ignore: use_build_context_synchronously
         context,
         MaterialPageRoute(builder: (_) => const TravellerBottomSheet()),
       );
-    } else if (savedRole == 'guide') {
+    } else if (role == 'guide') {
       Navigator.pushReplacement(
-        // ignore: use_build_context_synchronously
         context,
         MaterialPageRoute(builder: (_) => const TuristDashbordBottomSheet()),
       );
     }
-  }
-
-  /// ✅ Save role PER USER and navigate
-  Future<void> selectRole(String role) async {
-    setState(() => isLoading = true);
-
-    final user = FirebaseAuth.instance.currentUser;
-    if (user == null) return;
-
-    try {
-      // 🔹 Save role in Firestore
-      await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
-        'uid': user.uid,
-        'email': user.email,
-        'role': role,
-        'createdAt': FieldValue.serverTimestamp(),
-      }, SetOptions(merge: true));
-
-      // 🔹 Save role locally PER USER
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('userRole_${user.uid}', role);
-
-      // 🔹 Navigate
-      if (role == 'traveller') {
-        Navigator.pushReplacement(
-          // ignore: use_build_context_synchronously
-          context,
-          MaterialPageRoute(builder: (_) => TravellerBottomSheet()),
-        );
-      } else {
-        Navigator.pushReplacement(
-          // ignore: use_build_context_synchronously
-          context,
-          MaterialPageRoute(builder: (_) => const TuristDashbordBottomSheet()),
-        );
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(
-        // ignore: use_build_context_synchronously
-        context,
-      ).showSnackBar(const SnackBar(content: Text("Something went wrong")));
-    }
-
-    setState(() => isLoading = false);
   }
 
   @override
@@ -144,7 +209,7 @@ class _ChooseRoleState extends State<ChooseRole> {
                     /// TRAVELLER
                     Expanded(
                       child: InkWell(
-                        onTap: () => selectRole('traveller'),
+                        onTap: isLoading ? null : () => selectRole('traveller'),
                         child: roleCard(
                           image: 'assets/man.png',
                           title: 'Traveler',
@@ -161,7 +226,7 @@ class _ChooseRoleState extends State<ChooseRole> {
                     /// GUIDE
                     Expanded(
                       child: InkWell(
-                        onTap: () => selectRole('guide'),
+                        onTap: isLoading ? null : () => selectRole('guide'),
                         child: roleCard(
                           image: 'assets/travelguider.png',
                           title: 'Guide',
@@ -183,7 +248,6 @@ class _ChooseRoleState extends State<ChooseRole> {
           /// LOADING OVERLAY
           if (isLoading)
             Container(
-              // ignore: deprecated_member_use
               color: Colors.black.withOpacity(0.2),
               child: const Center(child: CircularProgressIndicator()),
             ),
@@ -193,7 +257,7 @@ class _ChooseRoleState extends State<ChooseRole> {
   }
 }
 
-/// 🔹 Role Card Widget
+/// Role Card Widget
 Widget roleCard({
   required String image,
   required String title,
