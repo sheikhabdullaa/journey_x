@@ -17,7 +17,10 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -33,7 +36,10 @@ class DefaultFirebaseOptions {
           'you can reconfigure this by running the FlutterFire CLI again.',
         );
       case TargetPlatform.windows:
-        return windows;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for windows - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -46,31 +52,11 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBAdVM5nAwBug-SYqZ22UHCwqI4RAkJg64',
-    appId: '1:566998785753:web:8338b3f488b145840c68c8',
-    messagingSenderId: '566998785753',
-    projectId: 'journeyx-5bba3',
-    authDomain: 'journeyx-5bba3.firebaseapp.com',
-    storageBucket: 'journeyx-5bba3.firebasestorage.app',
-    measurementId: 'G-HLYXFH2G76',
-  );
-
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBrE6HPaoeOSn_yyDza0D67ODBH0PHjpCs',
-    appId: '1:566998785753:android:1f970c767e7731120c68c8',
-    messagingSenderId: '566998785753',
-    projectId: 'journeyx-5bba3',
-    storageBucket: 'journeyx-5bba3.firebasestorage.app',
-  );
-
-  static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyBAdVM5nAwBug-SYqZ22UHCwqI4RAkJg64',
-    appId: '1:566998785753:web:900e91ca98ec4b3f0c68c8',
-    messagingSenderId: '566998785753',
-    projectId: 'journeyx-5bba3',
-    authDomain: 'journeyx-5bba3.firebaseapp.com',
-    storageBucket: 'journeyx-5bba3.firebasestorage.app',
-    measurementId: 'G-7FXH6NZJZE',
+  static  FirebaseOptions android = FirebaseOptions(
+    apiKey: 'AIzaSyCDu4fKeivVtRP09rN_HxiacxFXI-tEhFg',
+    appId: '1:844806314078:android:4f8bb9f520edc45154fccf',
+    messagingSenderId: '844806314078',
+    projectId: 'turistappnew',
+    storageBucket: 'turistappnew.firebasestorage.app',
   );
 }
