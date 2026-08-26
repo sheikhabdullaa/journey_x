@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:journey_x/autj_view/request_to_join.dart';
-import 'package:journey_x/autj_view/tourist_dashbord.dart';
-import 'package:journey_x/components/custom_text_button.dart';
-import 'package:journey_x/components/inter_text.dart';
-import 'package:journey_x/components/popin_text.dart';
-import 'package:journey_x/repository/creat_trip_repo.dart';
-import 'package:journey_x/utils/app_colors.dart';
+import 'package:journeyX/autj_view/request_to_join.dart';
+import 'package:journeyX/autj_view/tourist_dashbord.dart';
+import 'package:journeyX/components/custom_text_button.dart';
+import 'package:journeyX/components/inter_text.dart';
+import 'package:journeyX/components/popin_text.dart';
+import 'package:journeyX/repository/creat_trip_repo.dart';
+import 'package:journeyX/utils/app_colors.dart';
 
 class SeenGuider extends StatefulWidget {
   const SeenGuider({super.key});

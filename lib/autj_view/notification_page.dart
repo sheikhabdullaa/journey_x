@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:journey_x/components/inter_text.dart';
-import 'package:journey_x/components/popin_text.dart';
-import 'package:journey_x/utils/app_colors.dart';
+import 'package:journeyX/components/inter_text.dart';
+import 'package:journeyX/components/popin_text.dart';
+import 'package:journeyX/utils/app_colors.dart';
 
 class NotificationPage extends StatefulWidget {
   const NotificationPage({super.key});

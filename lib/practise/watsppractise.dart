@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:journey_x/practise/watsapp_service.dart';
+import 'package:journeyX/practise/watsapp_service.dart';
 
 class Watsppractise extends StatelessWidget {
   const Watsppractise({super.key});

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:journey_x/components/homenaje.dart';
-import 'package:journey_x/components/popin_text.dart';
-import 'package:journey_x/utils/app_colors.dart';
-import 'package:journey_x/widjets/login_widget.dart';
-import 'package:journey_x/widjets/signup_widget.dart';
+import 'package:journeyX/components/homenaje.dart';
+import 'package:journeyX/components/popin_text.dart';
+import 'package:journeyX/utils/app_colors.dart';
+import 'package:journeyX/widjets/login_widget.dart';
+import 'package:journeyX/widjets/signup_widget.dart';
 
 class LoginSacreen extends StatefulWidget {
   const LoginSacreen({super.key});

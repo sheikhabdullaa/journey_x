@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:journey_x/autj_view/choose_role.dart';
-import 'package:journey_x/autj_view/forgott_password.dart';
-import 'package:journey_x/components/custom_text_field.dart';
-import 'package:journey_x/components/inter_text.dart';
-import 'package:journey_x/repository/auth_repo.dart';
-import 'package:journey_x/utils/app_colors.dart';
+import 'package:journeyX/autj_view/choose_role.dart';
+import 'package:journeyX/autj_view/forgott_password.dart';
+import 'package:journeyX/components/custom_text_field.dart';
+import 'package:journeyX/components/inter_text.dart';
+import 'package:journeyX/repository/auth_repo.dart';
+import 'package:journeyX/utils/app_colors.dart';
 
 class LoginWidget extends StatefulWidget {
   const LoginWidget({super.key});

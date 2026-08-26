@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:journey_x/components/custom_text_field.dart';
-import 'package:journey_x/utils/app_colors.dart';
+import 'package:journeyX/components/custom_text_field.dart';
+import 'package:journeyX/utils/app_colors.dart';
 import '../repository/auth_repo.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {

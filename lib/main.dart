@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:journey_x/autj_view/splash_sacreen.dart';
+import 'package:journeyX/autj_view/splash_sacreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -39,7 +39,7 @@
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:journey_x/model/trip_model.dart';
+import 'package:journeyX/model/trip_model.dart';
 
 class CreatTripRepo {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;

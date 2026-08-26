@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:journey_x/components/custom_text.dart';
-import 'package:journey_x/utils/app_colors.dart';
+import 'package:journeyX/components/custom_text.dart';
+import 'package:journeyX/utils/app_colors.dart';
 import 'package:latlong2/latlong.dart';
 
 class GoogleMapscreen extends StatefulWidget {

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:journey_x/classes/day_classes.dart';
-import 'package:journey_x/classes/degree_class.dart';
-import 'package:journey_x/components/inter_text.dart';
-import 'package:journey_x/components/popin_text.dart';
-import 'package:journey_x/repository/creat_trip_repo.dart';
-import 'package:journey_x/utils/app_colors.dart';
+import 'package:journeyX/classes/day_classes.dart';
+import 'package:journeyX/classes/degree_class.dart';
+import 'package:journeyX/components/inter_text.dart';
+import 'package:journeyX/components/popin_text.dart';
+import 'package:journeyX/repository/creat_trip_repo.dart';
+import 'package:journeyX/utils/app_colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // ignore: camel_case_types

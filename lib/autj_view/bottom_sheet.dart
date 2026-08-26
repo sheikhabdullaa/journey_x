@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:journey_x/autj_view/guider_dashboard.dart';
-import 'package:journey_x/autj_view/michal_turist_profile.dart';
-import 'package:journey_x/autj_view/notification_page.dart';
-import 'package:journey_x/components/custom_text.dart';
-import 'package:journey_x/utils/app_colors.dart';
+import 'package:journeyX/autj_view/guider_dashboard.dart';
+import 'package:journeyX/autj_view/michal_turist_profile.dart';
+import 'package:journeyX/autj_view/notification_page.dart';
+import 'package:journeyX/components/custom_text.dart';
+import 'package:journeyX/utils/app_colors.dart';
 
 // ignore: camel_case_types
 class guideBottomSheet extends StatefulWidget {

@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:journey_x/classes/sarah_model_class.dart';
-import 'package:journey_x/components/popin_text.dart';
-import 'package:journey_x/utils/app_colors.dart';
+import 'package:journeyX/classes/sarah_model_class.dart';
+import 'package:journeyX/components/popin_text.dart';
+import 'package:journeyX/utils/app_colors.dart';
 
 class SarahEditProfile extends StatefulWidget {
   final String uid;

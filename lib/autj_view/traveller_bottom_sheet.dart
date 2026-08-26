@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:journey_x/auth/traveller_dashbord.dart';
-import 'package:journey_x/autj_view/notification_page.dart';
-import 'package:journey_x/autj_view/turist_profile.dart';
-import 'package:journey_x/components/popin_text.dart';
-import 'package:journey_x/utils/app_colors.dart';
+import 'package:journeyX/auth/traveller_dashbord.dart';
+import 'package:journeyX/autj_view/notification_page.dart';
+import 'package:journeyX/autj_view/turist_profile.dart';
+import 'package:journeyX/components/popin_text.dart';
+import 'package:journeyX/utils/app_colors.dart';
 
 class TravellerBottomSheet extends StatefulWidget {
   const TravellerBottomSheet({super.key});

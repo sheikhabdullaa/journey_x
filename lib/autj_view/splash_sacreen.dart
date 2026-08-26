@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:journey_x/components/custom_text.dart';
-import 'package:journey_x/utils/app_colors.dart';
-import 'package:journey_x/widjets/login_sacreen/login_sacreen.dart';
+import 'package:journeyX/components/custom_text.dart';
+import 'package:journeyX/utils/app_colors.dart';
+import 'package:journeyX/widjets/login_sacreen/login_sacreen.dart';
 
 class SplashSacreen extends StatefulWidget {
   const SplashSacreen({super.key});

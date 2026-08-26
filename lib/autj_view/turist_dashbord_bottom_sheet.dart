@@ -1,11 +1,11 @@
 import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:journey_x/autj_view/creat_trip.dart';
-import 'package:journey_x/autj_view/notification_page.dart';
-import 'package:journey_x/autj_view/tourist_dashbord.dart';
-import 'package:journey_x/autj_view/turist_profile.dart';
-import 'package:journey_x/utils/app_colors.dart';
+import 'package:journeyX/autj_view/creat_trip.dart';
+import 'package:journeyX/autj_view/notification_page.dart';
+import 'package:journeyX/autj_view/tourist_dashbord.dart';
+import 'package:journeyX/autj_view/turist_profile.dart';
+import 'package:journeyX/utils/app_colors.dart';
 
 class TuristDashbordBottomSheet extends StatefulWidget {
   const TuristDashbordBottomSheet({super.key});

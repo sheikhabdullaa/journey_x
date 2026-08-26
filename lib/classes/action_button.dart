@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:journey_x/utils/app_colors.dart';
+import 'package:journeyX/utils/app_colors.dart';
 
 Widget actionButton(IconData icon, String label) {
   return Column(

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:journey_x/autj_view/traveller_bottom_sheet.dart';
-import 'package:journey_x/autj_view/turist_dashbord_bottom_sheet.dart';
-import 'package:journey_x/components/custom_text.dart';
-import 'package:journey_x/components/homenaje.dart';
-import 'package:journey_x/components/inter_text.dart';
-import 'package:journey_x/components/popin_text.dart';
-import 'package:journey_x/utils/app_colors.dart';
+import 'package:journeyX/autj_view/traveller_bottom_sheet.dart';
+import 'package:journeyX/autj_view/turist_dashbord_bottom_sheet.dart';
+import 'package:journeyX/components/custom_text.dart';
+import 'package:journeyX/components/homenaje.dart';
+import 'package:journeyX/components/inter_text.dart';
+import 'package:journeyX/components/popin_text.dart';
+import 'package:journeyX/utils/app_colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ChooseRole extends StatefulWidget {
@@ -248,6 +248,7 @@ class _ChooseRoleState extends State<ChooseRole> {
           /// LOADING OVERLAY
           if (isLoading)
             Container(
+              // ignore: deprecated_member_use
               color: Colors.black.withOpacity(0.2),
               child: const Center(child: CircularProgressIndicator()),
             ),

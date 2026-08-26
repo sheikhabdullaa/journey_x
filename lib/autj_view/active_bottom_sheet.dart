@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:journey_x/active_trip.dart';
-import 'package:journey_x/autj_view/michal_turist_profile.dart';
-import 'package:journey_x/autj_view/notification_page.dart';
-import 'package:journey_x/components/popin_text.dart';
-import 'package:journey_x/utils/app_colors.dart';
+import 'package:journeyX/active_trip.dart';
+import 'package:journeyX/autj_view/michal_turist_profile.dart';
+import 'package:journeyX/autj_view/notification_page.dart';
+import 'package:journeyX/components/popin_text.dart';
+import 'package:journeyX/utils/app_colors.dart';
 
 class ActiveBottomSheet extends StatefulWidget {
   const ActiveBottomSheet({super.key});

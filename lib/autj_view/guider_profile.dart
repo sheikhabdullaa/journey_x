@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:journey_x/autj_view/sarah_edit_profile.dart';
-import 'package:journey_x/autj_view/traveller_bottom_sheet.dart';
-import 'package:journey_x/classes/edit_profile.dart';
-import 'package:journey_x/components/inter_text.dart';
-import 'package:journey_x/components/popin_text.dart';
-import 'package:journey_x/repository/auth_repo.dart';
-import 'package:journey_x/utils/app_colors.dart';
-import 'package:journey_x/widjets/login_sacreen/login_sacreen.dart';
+import 'package:journeyX/autj_view/sarah_edit_profile.dart';
+import 'package:journeyX/autj_view/traveller_bottom_sheet.dart';
+import 'package:journeyX/classes/edit_profile.dart';
+import 'package:journeyX/components/inter_text.dart';
+import 'package:journeyX/components/popin_text.dart';
+import 'package:journeyX/repository/auth_repo.dart';
+import 'package:journeyX/utils/app_colors.dart';
+import 'package:journeyX/widjets/login_sacreen/login_sacreen.dart';
 
 class GuiderProfile extends StatefulWidget {
   const GuiderProfile({super.key});

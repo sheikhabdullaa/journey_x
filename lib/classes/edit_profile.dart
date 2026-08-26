@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:journey_x/classes/sarah_model_class.dart';
+import 'package:journeyX/classes/sarah_model_class.dart';
 
 final firebaseUser = FirebaseAuth.instance.currentUser!;
 
