@@ -43,7 +43,7 @@ class _LoginSacreenState extends State<LoginSacreen>
 
           /// APP NAME
           homenage(
-            text: 'Travel Mate',
+            text: 'JourneyX',
             fontSize: 52,
             color: AppColors.black,
             fw: FontWeight.w400,
@@ -83,10 +83,7 @@ class _LoginSacreenState extends State<LoginSacreen>
           Expanded(
             child: TabBarView(
               controller: controller,
-              children: [
-                LoginWidget(),
-                SignupWidget(),
-              ],
+              children: [LoginWidget(), SignupWidget()],
             ),
           ),
         ],

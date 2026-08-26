@@ -14,7 +14,7 @@ class SplashSacreen extends StatefulWidget {
 class _SplashSacreenState extends State<SplashSacreen> {
   // ignore: annotate_overrides
   void initState() {
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(Duration(seconds: 3), () {
       Navigator.push(
         // ignore: use_build_context_synchronously
         context,
@@ -37,17 +37,17 @@ class _SplashSacreenState extends State<SplashSacreen> {
             width: screenWidth * 1,
             child: Stack(
               children: [
-                // Image.asset(
-                //   'assets/splash.png',
-                //   height: screenHeight * 1,
-                //   width: screenWidth * 1,
-                //   fit: BoxFit.cover,
-                // ),
+                Image.asset(
+                  'assets/splash.png',
+                  height: screenHeight * 1,
+                  width: screenWidth * 1,
+                  fit: BoxFit.cover,
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 40),
                   child: Column(
                     children: [
-                      // Image.asset('assets/polygon.png'),
+                      Image.asset('assets/polygon.png'),
                       customtext(
                         text: 'JourneyX',
                         fontSize: 36.39,

@@ -12,7 +12,7 @@ class WeatherPage extends StatefulWidget {
   const WeatherPage({super.key});
 
   @override
-  State<WeatherPage> createState() => _WeatherPageState ();
+  State<WeatherPage> createState() => _WeatherPageState();
 }
 
 class _WeatherPageState extends State<WeatherPage> {
@@ -250,7 +250,6 @@ class _WeatherPageState extends State<WeatherPage> {
                       ),
                     ),
 
-                   
                     SizedBox(height: screenheight * 0.07),
 
                     Padding(
