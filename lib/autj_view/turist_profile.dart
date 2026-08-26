@@ -264,7 +264,7 @@ class _TuristProfilePageState extends State<TuristProfile> {
 
               SizedBox(height: screenHeight * 0.06),
               inter(
-                text: 'TravelMate Hub v1.0.0',
+                text: 'JourneyX v1.0.0',
                 fontSize: 14,
                 color: const Color.fromARGB(103, 0, 0, 0),
                 fw: FontWeight.w400,
