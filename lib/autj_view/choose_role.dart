@@ -177,7 +177,7 @@ class _ChooseRoleState extends State<ChooseRole> {
                 const SizedBox(height: 12),
 
                 homenage(
-                  text: 'Travel Mate',
+                  text: 'JourneyX',
                   fontSize: 48,
                   color: AppColors.black,
                   fw: FontWeight.w400,

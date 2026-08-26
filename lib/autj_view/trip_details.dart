@@ -1,5 +1,8 @@
 // ignore: file_names
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:journeyX/autj_view/creat_trip.dart';
 import 'package:journeyX/autj_view/notification_page.dart';
 import 'package:journeyX/classes/day_classes.dart';
@@ -17,12 +20,42 @@ class TripDaetails extends StatefulWidget {
   State<TripDaetails> createState() => _TripDaetailsState();
 }
 
+Future<void> getWeather() async {
+  try {
+    final response = await http.get(
+      Uri.parse(
+        'https://api.open-meteo.com/v1/forecast?latitude=31.5204&longitude=74.3587&current=temperature_2m',
+      ),
+    );
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+
+      setSate(() {
+        var temtperature = (data['current']?['temperature_2m'] as num?)
+            ?.toDouble();
+      });
+    }
+  } catch (e) {
+    // ignore: avoid_print
+    print('Weather Error: $e');
+  }
+}
+
+void setSate(Null Function() param0) {}
+
 final dayClass = DayClasses();
 final degreeClass = DegreeClass();
 
 class _TripDaetailsState extends State<TripDaetails> {
   // ignore: strict_top_level_inference
   get selectedDayIndex => null;
+  double? temperature;
+  @override
+  void initState() {
+    super.initState();
+    getWeather();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -155,7 +188,10 @@ class _TripDaetailsState extends State<TripDaetails> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               inter(
-                                text: '26℃',
+                                // text: '26℃',
+                                text: temperature != null
+                                    ? 'Sunyy ${temperature!.round()}℃'
+                                    : '--℃',
                                 fontSize: 14,
                                 color: AppColors.grey,
                                 fw: .w400,
