@@ -37,19 +37,19 @@ class _SplashSacreenState extends State<SplashSacreen> {
             width: screenWidth * 1,
             child: Stack(
               children: [
-                Image.asset(
-                  'assets/splash.png',
-                  height: screenHeight * 1,
-                  width: screenWidth * 1,
-                  fit: BoxFit.cover,
-                ),
+                // Image.asset(
+                //   'assets/splash.png',
+                //   height: screenHeight * 1,
+                //   width: screenWidth * 1,
+                //   fit: BoxFit.cover,
+                // ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 40),
                   child: Column(
                     children: [
-                      Image.asset('assets/polygon.png'),
+                      // Image.asset('assets/polygon.png'),
                       customtext(
-                        text: 'Travel Mate',
+                        text: 'JourneyX',
                         fontSize: 36.39,
                         color: AppColors.black,
                         fw: FontWeight.w400,
