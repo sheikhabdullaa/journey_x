@@ -14,11 +14,61 @@ class LoginWidget extends StatefulWidget {
 }
 
 class _LoginWidgetState extends State<LoginWidget> {
-  TextEditingController emailcontroller = TextEditingController();
-  TextEditingController passwordcontroller = TextEditingController();
+  final AuthRepo _authRepo = AuthRepo();
+
+  final TextEditingController emailcontroller = TextEditingController();
+  final TextEditingController passwordcontroller = TextEditingController();
 
   bool loading = false;
   bool _obscureText = true;
+
+  Future<void> _login() async {
+    final String email = emailcontroller.text.trim();
+    final String password = passwordcontroller.text.trim();
+
+    if (email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Email and password are required')),
+      );
+      return;
+    }
+
+    setState(() => loading = true);
+
+    String? error;
+
+    try {
+      error = await _authRepo.login(email, password);
+    } catch (_) {
+      error = 'Login failed. Please try again.';
+    }
+
+    if (!mounted) return;
+    setState(() => loading = false);
+
+    if (error != null) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(error)));
+      return;
+    }
+
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text('Login Successful')));
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const ChooseRole()),
+    );
+  }
+
+  @override
+  void dispose() {
+    emailcontroller.dispose();
+    passwordcontroller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +92,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                     hint: 'for-example@example.com',
                     icon: Icon(Icons.email_outlined, color: AppColors.grey),
                     controller: emailcontroller,
-                    readOnly: true,
+                    readOnly: false,
                   ),
                 ],
               ),
@@ -88,10 +138,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                         horizontal: 16,
                       ),
                       enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(
-                          12,
-                        ), // Rounded corners
-                        borderSide: BorderSide(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: const BorderSide(
                           color: Color.fromARGB(67, 158, 158, 158),
                         ),
                       ),
@@ -101,11 +149,17 @@ class _LoginWidgetState extends State<LoginWidget> {
                       ),
                       errorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.red, width: 1),
+                        borderSide: const BorderSide(
+                          color: Colors.red,
+                          width: 1,
+                        ),
                       ),
                       focusedErrorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.red, width: 1),
+                        borderSide: const BorderSide(
+                          color: Colors.red,
+                          width: 1,
+                        ),
                       ),
                     ),
                   ),
@@ -142,46 +196,28 @@ class _LoginWidgetState extends State<LoginWidget> {
                 width: double.infinity,
                 height: 48,
                 child: ElevatedButton(
-                  onPressed: loading
-                      ? null
-                      : () async {
-                          try {
-                            await AuthRepo().login(
-                              emailcontroller.text.trim(),
-                              passwordcontroller.text.trim(),
-                            );
-
-                            // ignore: use_build_context_synchronously
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text("login Successful")),
-                            );
-
-                            Navigator.push(
-                              // ignore: use_build_context_synchronously
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ChooseRole(),
-                              ),
-                            );
-                          } catch (e) {
-                            // ignore: use_build_context_synchronously
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text("login failed")),
-                            );
-                          }
-                        },
+                  onPressed: loading ? null : _login,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.blueascent,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(14),
                     ),
                   ),
-                  child: inter(
-                    text: 'Login',
-                    fontSize: 16,
-                    color: AppColors.white,
-                    fw: FontWeight.w500,
-                  ),
+                  child: loading
+                      ? const SizedBox(
+                          width: 22,
+                          height: 22,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.white,
+                          ),
+                        )
+                      : inter(
+                          text: 'Login',
+                          fontSize: 16,
+                          color: AppColors.white,
+                          fw: FontWeight.w500,
+                        ),
                 ),
               ),
             ],

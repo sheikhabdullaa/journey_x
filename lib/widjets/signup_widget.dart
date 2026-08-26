@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:journey_x/autj_view/choose_role.dart';
 import 'package:journey_x/components/custom_text_field.dart';
@@ -12,7 +14,10 @@ class SignupWidget extends StatefulWidget {
   State<SignupWidget> createState() => _SignupWidgetState();
 }
 
-class _SignupWidgetState extends State<SignupWidget> {
+class _SignupWidgetState extends State<SignupWidget>
+    with WidgetsBindingObserver {
+  final AuthRepo _authRepo = AuthRepo();
+
   TextEditingController emailcontroller = TextEditingController();
   TextEditingController passwordcontroller = TextEditingController();
   TextEditingController namecontroller = TextEditingController();
@@ -20,6 +25,144 @@ class _SignupWidgetState extends State<SignupWidget> {
 
   bool loading = false;
   bool _obscureText = true;
+  bool _waitingForVerification = false;
+  bool _checkingVerification = false;
+  Timer? _verificationTimer;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed && _waitingForVerification) {
+      _checkEmailVerification();
+    }
+  }
+
+  void _startVerificationChecking() {
+    _verificationTimer?.cancel();
+
+    _verificationTimer = Timer.periodic(
+      const Duration(seconds: 3),
+      (_) => _checkEmailVerification(),
+    );
+  }
+
+  Future<void> _checkEmailVerification() async {
+    if (_checkingVerification || !_waitingForVerification || !mounted) {
+      return;
+    }
+
+    _checkingVerification = true;
+
+    try {
+      final bool isVerified = await _authRepo.checkEmailVerification();
+
+      if (!mounted || !isVerified) return;
+
+      _waitingForVerification = false;
+      _verificationTimer?.cancel();
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Email verified successfully')),
+      );
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const ChooseRole()),
+      );
+    } finally {
+      _checkingVerification = false;
+    }
+  }
+
+  Future<void> _signup() async {
+    final String name = namecontroller.text.trim();
+    final String email = emailcontroller.text.trim();
+    final String password = passwordcontroller.text.trim();
+    final String phone = numbercontroller.text.trim();
+
+    final RegExp phoneRegEx = RegExp(r'^\+?\d{10,15}$');
+
+    if (name.isEmpty || email.isEmpty || password.isEmpty || phone.isEmpty) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('All fields are required')));
+      return;
+    }
+
+    if (!phoneRegEx.hasMatch(phone)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Enter a valid phone number')),
+      );
+      return;
+    }
+
+    if (_waitingForVerification) {
+      setState(() => loading = true);
+
+      final String? resendError = await _authRepo.resendVerificationEmail();
+
+      if (!mounted) return;
+      setState(() => loading = false);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            resendError ??
+                'Verification email sent again. Please check your Gmail.',
+          ),
+        ),
+      );
+      return;
+    }
+
+    setState(() => loading = true);
+
+    final int phoneNumber = int.parse(phone.replaceAll(RegExp(r'\D'), ''));
+
+    final String? error = await _authRepo.signup(
+      email,
+      password,
+      name,
+      phoneNumber,
+    );
+
+    if (!mounted) return;
+    setState(() => loading = false);
+
+    if (error != null) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(error)));
+      return;
+    }
+
+    _waitingForVerification = true;
+    _startVerificationChecking();
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        duration: Duration(seconds: 5),
+        content: Text('Verification link sent. Open Gmail and click the link.'),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _verificationTimer?.cancel();
+    emailcontroller.dispose();
+    passwordcontroller.dispose();
+    namecontroller.dispose();
+    numbercontroller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +187,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                     hint: 'Enter your name',
                     icon: Icon(Icons.person_2_outlined, color: AppColors.grey),
                     controller: namecontroller,
-                    readOnly: true,
+                    readOnly: false,
                   ),
                 ],
               ),
@@ -65,7 +208,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                     hint: 'for-example@example.com',
                     icon: Icon(Icons.email_outlined, color: AppColors.grey),
                     controller: emailcontroller,
-                    readOnly: true,
+                    readOnly: false,
                   ),
                 ],
               ),
@@ -86,7 +229,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                     hint: '+123 456 7890',
                     icon: Icon(Icons.call_outlined, color: AppColors.grey),
                     controller: numbercontroller,
-                    readOnly: true,
+                    readOnly: false,
                   ),
                 ],
               ),
@@ -161,80 +304,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                 height: 48,
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: loading
-                      ? null
-                      : () async {
-                          String name = namecontroller.text.trim();
-                          String email = emailcontroller.text.trim();
-                          String password = passwordcontroller.text.trim();
-                          String phone = numbercontroller.text.trim();
-
-                          // Phone number validation
-                          RegExp phoneRegEx = RegExp(r'^\+?\d{10,15}$');
-                          // Explanation:
-                          // ^ = start, \+? = optional plus, \d{10,15} = 10 to 15 digits, $ = end
-
-                          if (name.isEmpty ||
-                              email.isEmpty ||
-                              password.isEmpty ||
-                              phone.isEmpty) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text("All fields are required"),
-                              ),
-                            );
-                            return;
-                          }
-
-                          if (!phoneRegEx.hasMatch(phone)) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text("Enter a valid phone number"),
-                              ),
-                            );
-                            return;
-                          }
-
-                          try {
-                            setState(() {
-                              loading = true;
-                            });
-
-                            await AuthRepo().signup(
-                              email,
-                              password,
-                              name,
-                              int.parse(
-                                phone.replaceAll(RegExp(r'\D'), ''),
-                              ), // remove non-digit
-                            );
-
-                            // ignore: use_build_context_synchronously
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text("Signup Successful"),
-                              ),
-                            );
-
-                            // ignore: use_build_context_synchronously
-                            Navigator.push(
-                              // ignore: use_build_context_synchronously
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const ChooseRole(),
-                              ),
-                            );
-                          } catch (e) {
-                            // ignore: use_build_context_synchronously
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text("Signup failed: $e")),
-                            );
-                          } finally {
-                            setState(() {
-                              loading = false;
-                            });
-                          }
-                        },
+                  onPressed: loading ? null : _signup,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.blueascent,
                     shape: RoundedRectangleBorder(
