@@ -35,6 +35,7 @@ class _CreatTripState extends State<CreatTrip> {
 
   // checkboxes
   bool femaleFriends = false;
+  // ignore: non_constant_identifier_names
   bool Public = false;
 
   // dropdown values (IMPORTANT)

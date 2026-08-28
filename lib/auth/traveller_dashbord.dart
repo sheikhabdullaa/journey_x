@@ -4,7 +4,6 @@ import 'package:http/http.dart' as http;
 import 'package:journeyX/active_trip.dart';
 import 'package:journeyX/autj_view/active_bottom_sheet.dart';
 import 'package:journeyX/autj_view/bottom_sheet.dart';
-import 'package:journeyX/autj_view/guider_dashboard.dart';
 import 'package:journeyX/autj_view/notification_page.dart';
 import 'package:journeyX/autj_view/request_to_join.dart';
 import 'package:journeyX/autj_view/trip_details.dart';

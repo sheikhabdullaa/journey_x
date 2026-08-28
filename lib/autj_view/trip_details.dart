@@ -32,6 +32,7 @@ Future<void> getWeather() async {
       final data = jsonDecode(response.body);
 
       setSate(() {
+        // ignore: unused_local_variable
         var temtperature = (data['current']?['temperature_2m'] as num?)
             ?.toDouble();
       });

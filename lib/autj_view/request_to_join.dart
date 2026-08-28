@@ -76,6 +76,7 @@ class _RequesttojoinTripDetailsState extends State<RequesttojoinTripDetails> {
         });
       }
     } catch (e) {
+      // ignore: avoid_print
       print('Weather Error: $e');
     }
   }
