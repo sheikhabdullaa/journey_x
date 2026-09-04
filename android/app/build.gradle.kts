@@ -25,7 +25,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.journey_x"
+        applicationId = "com.journey.journey_x"
 
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
