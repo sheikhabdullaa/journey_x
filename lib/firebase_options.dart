@@ -56,7 +56,7 @@ class DefaultFirebaseOptions {
     apiKey: 'AIzaSyCDu4fKeivVtRP09rN_HxiacxFXI-tEhFg',
     appId: '1:844806314078:android:4f8bb9f520edc45154fccf',
     messagingSenderId: '844806314078',
-    projectId: 'turistappnew',
-    storageBucket: 'turistappnew.firebasestorage.app',
+    projectId: 'journeyx',
+    storageBucket: 'journeyx.firebasestorage.app',
   );
 }

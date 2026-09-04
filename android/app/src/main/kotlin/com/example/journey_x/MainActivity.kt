@@ -1,4 +1,4 @@
-package com.example.journey_x
+package com.journey.journey_x
 
 import io.flutter.embedding.android.FlutterActivity
 

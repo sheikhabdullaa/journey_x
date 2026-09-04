@@ -6,12 +6,11 @@ plugins {
 
     id("kotlin-android")
 
-    // Flutter plugin Android aur Kotlin plugins ke baad hona chahiye
     id("dev.flutter.flutter-gradle-plugin")
 }
 
 android {
-    namespace = "com.example.journey_x"
+    namespace = "com.journey.journey_x"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
